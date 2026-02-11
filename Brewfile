@@ -15,7 +15,6 @@ brew "tmux"
 brew "mongodb/brew/mongodb-community@5.0"
 # GUI Apps
 cask "1password"
-cask "bettersnaptool"
 cask "brave-browser"
 cask "caffeine"
 cask "charles"
