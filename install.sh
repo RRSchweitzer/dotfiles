@@ -2,8 +2,6 @@
 # Bootstrap a new Mac with all your packages
 # Run: curl -fsSL https://raw.githubusercontent.com/RRSchweitzer/dotfiles/main/install.sh | bash
 
-set -e
-
 DOTFILES_DIR="$HOME/.dotfiles"
 
 echo "======================================"
@@ -40,7 +38,7 @@ fi
 if [ -f "$DOTFILES_DIR/Brewfile" ]; then
     echo ""
     echo "Installing Homebrew packages..."
-    brew bundle --file="$DOTFILES_DIR/Brewfile"
+    brew bundle --file="$DOTFILES_DIR/Brewfile" || echo "Some packages failed to install (continuing anyway)"
 else
     echo "No Brewfile found, skipping Homebrew packages"
 fi
@@ -67,7 +65,7 @@ if [ -f "$DOTFILES_DIR/requirements.txt" ]; then
     echo ""
     echo "Installing pip packages..."
     if command -v pip3 &> /dev/null; then
-        pip3 install -r "$DOTFILES_DIR/requirements.txt"
+        pip3 install -r "$DOTFILES_DIR/requirements.txt" || echo "Some pip packages failed (continuing anyway)"
     else
         echo "  pip3 not found. Install Python first (should be in Brewfile)"
     fi
