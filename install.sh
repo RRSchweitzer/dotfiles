@@ -75,6 +75,16 @@ else
     echo "No requirements.txt found, skipping pip packages"
 fi
 
+# Restore Dock configuration
+if [ -f "$DOTFILES_DIR/dock.plist" ]; then
+    echo ""
+    echo "Restoring Dock configuration..."
+    defaults import com.apple.dock "$DOTFILES_DIR/dock.plist"
+    killall Dock
+else
+    echo "No dock.plist found, skipping Dock configuration"
+fi
+
 echo ""
 echo "======================================"
 echo "  Setup complete!"
