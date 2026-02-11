@@ -9,21 +9,23 @@ cd "$DOTFILES_DIR"
 
 echo "Exporting packages to $DOTFILES_DIR..."
 
-# Homebrew (preserve manually-added casks)
+# Homebrew (preserve manually-added casks, remove go packages)
 if command -v brew &> /dev/null; then
     echo "  - Homebrew packages -> Brewfile"
     # Save cask lines before dumping
     CASKS=$(grep '^cask ' "$DOTFILES_DIR/Brewfile" 2>/dev/null || true)
     brew bundle dump --force --file="$DOTFILES_DIR/Brewfile"
-    # Restore cask lines (removing duplicates)
+    # Remove go packages (machine-specific) and restore cask lines
+    grep -v '^go ' "$DOTFILES_DIR/Brewfile" > "$DOTFILES_DIR/Brewfile.tmp" || true
     if [ -n "$CASKS" ]; then
         # Remove any cask lines from dump, then add back our saved ones
-        grep -v '^cask ' "$DOTFILES_DIR/Brewfile" > "$DOTFILES_DIR/Brewfile.tmp" || true
+        grep -v '^cask ' "$DOTFILES_DIR/Brewfile.tmp" > "$DOTFILES_DIR/Brewfile.tmp2" || true
+        mv "$DOTFILES_DIR/Brewfile.tmp2" "$DOTFILES_DIR/Brewfile.tmp"
         echo "" >> "$DOTFILES_DIR/Brewfile.tmp"
         echo "# GUI Apps" >> "$DOTFILES_DIR/Brewfile.tmp"
         echo "$CASKS" | sort -u >> "$DOTFILES_DIR/Brewfile.tmp"
-        mv "$DOTFILES_DIR/Brewfile.tmp" "$DOTFILES_DIR/Brewfile"
     fi
+    mv "$DOTFILES_DIR/Brewfile.tmp" "$DOTFILES_DIR/Brewfile"
 else
     echo "  - Homebrew not found, skipping"
 fi
