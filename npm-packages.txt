@@ -1,0 +1,8 @@
+@mermaid-js/mermaid-cli
+@openai/codex
+@shopify/cli
+@shopify/dev-mcp
+md-to-pdf
+nodemon
+yarn
+
