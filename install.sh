@@ -21,6 +21,17 @@ fi
 
 cd "$DOTFILES_DIR"
 
+# Symlink config files
+echo "Symlinking config files..."
+if [ -f "$DOTFILES_DIR/zshrc" ]; then
+    ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+    echo "  - ~/.zshrc -> ~/.dotfiles/zshrc"
+fi
+if [ -f "$DOTFILES_DIR/gitconfig" ]; then
+    ln -sf "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
+    echo "  - ~/.gitconfig -> ~/.dotfiles/gitconfig"
+fi
+
 # Install Homebrew
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew..."
