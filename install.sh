@@ -113,6 +113,16 @@ else
     echo "No dock.plist found, skipping Dock configuration"
 fi
 
+# Set up GitHub authentication
+if command -v gh &> /dev/null; then
+    echo ""
+    echo "Setting up GitHub authentication..."
+    gh auth login
+    gh auth setup-git
+else
+    echo "gh CLI not found, skipping GitHub authentication setup"
+fi
+
 echo ""
 echo "======================================"
 echo "  Setup complete!"
