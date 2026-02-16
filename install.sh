@@ -134,20 +134,30 @@ fi
 
 # Restore Dock configuration
 if [ -f "$DOTFILES_DIR/dock.plist" ]; then
-    echo ""
-    echo "Restoring Dock configuration..."
-    defaults import com.apple.dock "$DOTFILES_DIR/dock.plist"
-    killall Dock
+    current_dock=$(defaults export com.apple.dock - 2>/dev/null)
+    saved_dock=$(cat "$DOTFILES_DIR/dock.plist")
+    if [ "$current_dock" = "$saved_dock" ]; then
+        echo "Dock configuration already up to date"
+    else
+        echo ""
+        echo "Restoring Dock configuration..."
+        defaults import com.apple.dock "$DOTFILES_DIR/dock.plist"
+        killall Dock
+    fi
 else
     echo "No dock.plist found, skipping Dock configuration"
 fi
 
 # Set up GitHub authentication
 if command -v gh &> /dev/null; then
-    echo ""
-    echo "Setting up GitHub authentication..."
-    gh auth login
-    gh auth setup-git
+    if gh auth status &> /dev/null; then
+        echo "GitHub CLI already authenticated"
+    else
+        echo ""
+        echo "Setting up GitHub authentication..."
+        gh auth login
+        gh auth setup-git
+    fi
 else
     echo "gh CLI not found, skipping GitHub authentication setup"
 fi
