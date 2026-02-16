@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# CLI: ytp <relative test path without src/ and .spec.ts>
+# Example: ytp floors/amazon-floor.experiment
+
+if [ -z "$1" ]; then
+  echo "❌ Error: You must provide a test path (e.g., floors/amazon-floor.experiment)"
+  exit 1
+fi
+
+WORKSPACE="fabrik-player"
+FULL_PATH="src/$1.spec.ts"
+
+echo "▶️  Running test in $WORKSPACE → $FULL_PATH"
+yarn workspace $WORKSPACE jest $FULL_PATH

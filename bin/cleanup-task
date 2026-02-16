@@ -1,0 +1,9 @@
+# Add a cleanup script too
+#!/bin/bash
+# cleanup-task.sh
+
+TASK_NAME=$1
+REPO_DIR=$(basename $(pwd))
+
+git worktree remove --force "../${REPO_DIR}-${TASK_NAME}"
+# Local branch kept - delete via GitHub UI when ready

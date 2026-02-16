@@ -1,0 +1,38 @@
+#!/bin/bash
+
+TASK_NAME=$1
+REPO_DIR=$(basename $(pwd))
+
+if [ -z "$TASK_NAME" ]; then
+  echo "Usage: new-task <task-name>"
+  exit 1
+fi
+
+# Find an available port
+find_free_port() {
+  local port
+  while true; do
+    port=$((3001 + RANDOM % 999))
+    if ! lsof -i ":$port" &>/dev/null; then
+      echo "$port"
+      return
+    fi
+  done
+}
+
+PORT=$(find_free_port)
+
+# Create worktree
+git worktree add "../${REPO_DIR}-${TASK_NAME}" -b "$TASK_NAME"
+
+# Save port to a file in the worktree so you remember it
+echo "$PORT" > "../${REPO_DIR}-${TASK_NAME}/.dev-port"
+
+echo "✓ Worktree created: ../${REPO_DIR}-${TASK_NAME}"
+echo "✓ Dev port: $PORT"
+echo ""
+echo "To start dev server, use: PORT=$PORT npm run dev"
+
+# Move into it and start claude
+cd "../${REPO_DIR}-${TASK_NAME}"
+claude

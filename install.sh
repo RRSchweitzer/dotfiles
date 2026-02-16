@@ -51,6 +51,35 @@ if [ -f "$DOTFILES_DIR/gitconfig" ]; then
     echo "  - ~/.gitconfig -> ~/.dotfiles/gitconfig"
 fi
 
+# Claude Code config
+if [ -d "$DOTFILES_DIR/claude" ]; then
+    mkdir -p "$HOME/.claude/hooks"
+    ln -sf "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+    echo "  - ~/.claude/settings.json -> ~/.dotfiles/claude/settings.json"
+    if [ -f "$DOTFILES_DIR/claude/hooks/announce.sh" ]; then
+        ln -sf "$DOTFILES_DIR/claude/hooks/announce.sh" "$HOME/.claude/hooks/announce.sh"
+        echo "  - ~/.claude/hooks/announce.sh -> ~/.dotfiles/claude/hooks/announce.sh"
+    fi
+fi
+
+# Custom scripts (~/bin and ~/scripts)
+if [ -d "$DOTFILES_DIR/bin" ]; then
+    mkdir -p "$HOME/bin"
+    for script in "$DOTFILES_DIR/bin"/*; do
+        name=$(basename "$script")
+        ln -sf "$script" "$HOME/bin/$name"
+        echo "  - ~/bin/$name -> ~/.dotfiles/bin/$name"
+    done
+fi
+if [ -d "$DOTFILES_DIR/scripts" ]; then
+    mkdir -p "$HOME/scripts"
+    for script in "$DOTFILES_DIR/scripts"/*; do
+        name=$(basename "$script")
+        ln -sf "$script" "$HOME/scripts/$name"
+        echo "  - ~/scripts/$name -> ~/.dotfiles/scripts/$name"
+    done
+fi
+
 # Install Homebrew
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew..."

@@ -55,6 +55,33 @@ fi
 echo "  - Dock configuration -> dock.plist"
 defaults export com.apple.dock "$DOTFILES_DIR/dock.plist"
 
+# Claude Code config
+if [ -f "$HOME/.claude/settings.json" ]; then
+    echo "  - Claude settings -> claude/settings.json"
+    mkdir -p "$DOTFILES_DIR/claude/hooks"
+    cp "$HOME/.claude/settings.json" "$DOTFILES_DIR/claude/settings.json"
+fi
+if [ -f "$HOME/.claude/hooks/announce.sh" ]; then
+    echo "  - Claude hooks -> claude/hooks/announce.sh"
+    cp "$HOME/.claude/hooks/announce.sh" "$DOTFILES_DIR/claude/hooks/announce.sh"
+fi
+
+# Custom scripts
+if [ -d "$HOME/bin" ]; then
+    echo "  - ~/bin scripts -> bin/"
+    mkdir -p "$DOTFILES_DIR/bin"
+    for script in "$HOME/bin"/*; do
+        [ -f "$script" ] && cp "$script" "$DOTFILES_DIR/bin/"
+    done
+fi
+if [ -d "$HOME/scripts" ]; then
+    echo "  - ~/scripts -> scripts/"
+    mkdir -p "$DOTFILES_DIR/scripts"
+    for script in "$HOME/scripts"/*; do
+        [ -f "$script" ] && cp "$script" "$DOTFILES_DIR/scripts/"
+    done
+fi
+
 echo ""
 echo "Done! Files created:"
 ls -la "$DOTFILES_DIR"/*.txt "$DOTFILES_DIR"/Brewfile "$DOTFILES_DIR"/dock.plist 2>/dev/null || true
