@@ -62,6 +62,15 @@ if [ -d "$DOTFILES_DIR/claude" ]; then
     fi
 fi
 
+# Sleepwatcher wakeup script (auto-upgrade Claude Code on wake)
+if [ -f "$DOTFILES_DIR/wakeup" ]; then
+    ln -sf "$DOTFILES_DIR/wakeup" "$HOME/.wakeup"
+    echo "  - ~/.wakeup -> ~/.dotfiles/wakeup"
+    if command -v brew &> /dev/null; then
+        brew services start sleepwatcher 2>/dev/null
+    fi
+fi
+
 # Custom scripts (~/bin and ~/scripts)
 if [ -d "$DOTFILES_DIR/bin" ]; then
     mkdir -p "$HOME/bin"

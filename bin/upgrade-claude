@@ -1,0 +1,18 @@
+#!/bin/bash
+# Upgrade Claude Code via Homebrew (runs silently on wake/login)
+
+export PATH="/opt/homebrew/bin:$PATH"
+
+LOG="$HOME/.claude/upgrade.log"
+mkdir -p "$(dirname "$LOG")"
+
+echo "$(date): Checking for Claude Code updates..." >> "$LOG"
+
+if brew upgrade --cask claude-code 2>&1 | tee -a "$LOG" | grep -q "already installed"; then
+  echo "$(date): Already up to date" >> "$LOG"
+else
+  echo "$(date): Upgrade complete" >> "$LOG"
+fi
+
+# Keep log from growing forever
+tail -100 "$LOG" > "$LOG.tmp" && mv "$LOG.tmp" "$LOG"

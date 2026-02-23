@@ -1,0 +1,5 @@
+#!/bin/bash
+# Runs on every macOS wake via sleepwatcher
+
+# Upgrade Claude Code
+$HOME/bin/upgrade-claude

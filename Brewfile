@@ -11,6 +11,7 @@ brew "postgis"
 brew "postgresql@16", restart_service: :changed
 brew "redis", restart_service: :changed
 brew "titlecase"
+brew "sleepwatcher"
 brew "tmux"
 brew "mongodb/brew/mongodb-community@8.0"
 # GUI Apps
