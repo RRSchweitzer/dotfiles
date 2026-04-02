@@ -9,6 +9,19 @@ echo "  Mac Setup Script"
 echo "======================================"
 echo ""
 
+# Install Xcode Command Line Tools (required for Homebrew and git)
+if ! xcode-select -p &> /dev/null; then
+    echo "Installing Xcode Command Line Tools..."
+    xcode-select --install
+    echo "Waiting for Xcode CLI tools to finish installing..."
+    until xcode-select -p &> /dev/null; do
+        sleep 5
+    done
+    echo "Xcode CLI tools installed"
+else
+    echo "Xcode CLI tools already installed"
+fi
+
 # Clone dotfiles if running via curl (not already in the repo)
 if [ ! -f "$DOTFILES_DIR/Brewfile" ]; then
     echo "Cloning dotfiles repository..."
