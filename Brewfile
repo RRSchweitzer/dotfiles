@@ -8,7 +8,7 @@ brew "git"
 brew "go"
 brew "mkcert"
 brew "postgis"
-brew "postgresql@16", restart_service: :changed
+brew "postgresql", restart_service: :changed
 brew "redis", restart_service: :changed
 brew "titlecase"
 brew "sleepwatcher"
